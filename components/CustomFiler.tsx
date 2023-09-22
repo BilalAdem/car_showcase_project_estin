@@ -14,7 +14,7 @@ const CustomFiler = ({title , options}: CustomFilterProps
 
   const handleUpdateParams = (e: {title: string , value: string}) => {
     const newPathName = UpdateParams(title, e.value.toLocaleLowerCase())
-    router.push(newPathName)
+    router.push(newPathName , {scroll: false})
 
 }
 
