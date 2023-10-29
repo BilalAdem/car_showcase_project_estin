@@ -1,8 +1,10 @@
 import { CarCard, CustomFiler, Hero, SearchBar, ShowMore } from '@/components'
 import Image from 'next/image'
-import { fetchCars } from '../utils'
+import { fetchCars } from '../../utils'
 import { HomeProps } from '@/types';
 import { fuels, yearsOfProduction } from '@/constants';
+import {createUser , fetchUser} from "@/lib/actions/user.actions"
+import { currentUser } from '@clerk/nextjs';
 
 export default async function Home({ searchParams }: HomeProps) {
   const allCars = await fetchCars({
@@ -38,7 +40,7 @@ export default async function Home({ searchParams }: HomeProps) {
         {!isDataEmpty ? (
           <section>
             <div className='home__cars-wrapper'>
-              {allCars?.map((car) => (
+              {allCars?.map((car: any) => (
                 <CarCard key={car.id} car={car} />
               ))}
             </div>

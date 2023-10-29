@@ -1,11 +1,14 @@
 import { Footer, Navbar } from '@/components'
-import './globals.css'
+import '../globals.css'
 import type { Metadata } from 'next'
+import { ClerkProvider   } from '@clerk/nextjs'
+
 
 
 export const metadata: Metadata = {
   title: 'CarHub',
   description: 'Discover your dream car today',
+  
 }
 
 export default function RootLayout({
@@ -13,13 +16,16 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
   return (
-    <html lang="en">
+    <ClerkProvider>
+      <html lang="en">
       <body className="relative">
-        <Navbar />
+        <Navbar/>
         {children}
         <Footer />
         </body>
     </html>
+    </ClerkProvider>
   )
 }
