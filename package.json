@@ -1,5 +1,5 @@
 {
-  "name": "car_showcase",
+  "name": "carhub",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,40 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@aws-sdk/credential-providers": "^3.414.0",
     "@clerk/nextjs": "^4.21.15",
     "@headlessui/react": "^1.7.17",
-    "@hookform/resolvers": "^3.3.1",
-    "@mongodb-js/zstd": "^1.2.0",
-    "@types/node": "20.4.2",
-    "@types/react": "18.2.15",
-    "@types/react-dom": "18.2.7",
-    "autoprefixer": "10.4.14",
-    "aws4": "^1.12.0",
-    "class-variance-authority": "^0.6.1",
-    "clsx": "^1.2.1",
-    "eslint": "8.45.0",
-    "eslint-config-next": "13.4.10",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-tailwindcss": "^3.13.0",
-    "kerberos": "^2.0.3",
-    "lucide-react": "^0.260.0",
-    "micro": "^10.0.1",
-    "mongodb": "6.2",
-    "mongoose": "^7.3.4",
-    "next": "13.4.10",
-    "postcss": "8.4.26",
-    "prettier": "^3.0.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-hook-form": "^7.46.1",
-    "snappy": "^7.2.2",
-    "svix": "^1.7.0",
-    "tailwind-merge": "^1.14.0",
-    "tailwindcss": "3.3.3",
-    "tailwindcss-animate": "^1.0.7",
-    "typescript": "5.1.6",
-    "zod": "^3.22.2"
+    "axios": "^1.6.1",
+    "mongoose": "^8.0.0",
+    "next": "14.0.2",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "postcss": "^8",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5"
   }
 }
