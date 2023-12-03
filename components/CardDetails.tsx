@@ -4,7 +4,9 @@ import { Fragment } from 'react';
 import Image from 'next/image';
 import { Dialog  , Transition} from '@headlessui/react'
 import { generateCarsImageUrl } from '@/utils';
-
+import { CustomButton } from '.';
+import { useRouter } from "next/navigation";
+import { useUser } from '@clerk/nextjs';
 
 
 
@@ -20,7 +22,15 @@ const CardDetails = ({
     closeModal,
     car
 }: CardDetailsProps) => {
-
+  const router = useRouter()
+  const {user} = useUser()
+  const handleNavigation = () => {
+    if (!user) {
+      return router.push('/')
+    }
+    console.log(`user is ${user.username}`)
+    return router.push(`/car/${car.make}/${car.model}/${car.year}`)
+  }
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
@@ -87,6 +97,13 @@ const CardDetails = ({
                       )
                       )}
                     </div>
+                  <CustomButton 
+                    title="Contact Seller"
+                    btnType="button"
+                    containerStyles="bg-primary-blue text-white rounded-full"
+                    handleClick={handleNavigation}
+                    rightIcon='/right-arrow.svg'
+                     />
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

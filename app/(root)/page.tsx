@@ -2,7 +2,6 @@ import { CarCard, CustomFiler, Hero, SearchBar, ShowMore } from '@/components'
 import { fetchCars } from '../../utils'
 import { HomeProps } from '@/types';
 import { fuels, yearsOfProduction } from '@/constants';
-import { currentUser } from "@clerk/nextjs";
 
 
 export default async function Home({ searchParams }: HomeProps) {

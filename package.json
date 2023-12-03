@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^4.21.15",
+    "@emailjs/browser": "^3.11.0",
     "@headlessui/react": "^1.7.17",
     "axios": "^1.6.1",
     "mongoose": "^8.0.0",
