@@ -61,6 +61,10 @@
 .hero__image-overlay {
   @apply absolute xl:-top-24 xl:-right-1/2 -right-1/4 bg-hero-bg bg-repeat-round -z-10 w-full xl:h-screen h-[590px] overflow-hidden;
 }
+.hero__image-overlay_costum {
+  @apply absolute xl:-top-24 -right-1/4 bg-hero-bg bg-repeat-round -z-10 w-full xl:h-screen h-[590px] overflow-hidden;
+}
+
 /* END: Hero styles */
 
 /* START: Home styles */
@@ -217,3 +221,37 @@
   @apply cursor-default select-none py-2 pl-10 pr-4;
 }
 /* END: search manufacturer styles */
+.gradient {
+  height: fit-content;
+  z-index: -1000;
+  width: 100%;
+  max-width: 640px;
+  background-image: radial-gradient(
+      at 27% 37%,
+      hsla(215, 98%, 61%, 1) 0px,
+      transparent 0%
+    ),
+    radial-gradient(at 97% 21%, hsla(125, 98%, 72%, 1) 0px, transparent 50%),
+    radial-gradient(at 52% 99%, hsla(354, 98%, 61%, 1) 0px, transparent 50%),
+    radial-gradient(at 10% 29%, hsla(256, 96%, 67%, 1) 0px, transparent 50%),
+    radial-gradient(at 97% 96%, hsla(38, 60%, 74%, 1) 0px, transparent 50%),
+    radial-gradient(at 33% 50%, hsla(222, 67%, 73%, 1) 0px, transparent 50%),
+    radial-gradient(at 79% 53%, hsla(343, 68%, 79%, 1) 0px, transparent 50%),
+    linear-gradient(to right, #4d74ff, #4d74ff); /* Linear gradient matching the component's background color */
+
+  /* Additional cooler tones for the background */
+  background-color: #85a8d8; /* Light blue background color */
+  mix-blend-mode: overlay; /* Blend mode for a cooler effect */
+
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  filter: blur(100px) saturate(150%);
+  top: 80px;
+  opacity: 0.15;
+}
+
+.contact_seller_input {
+  @apply block w-full rounded-md border border-gray-200 bg-white py-2.5 pl-10 pr-12 text-sm shadow-lg font-medium focus:outline-none focus:ring-0;
+}

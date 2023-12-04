@@ -20,6 +20,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
       <body className="relative">
+        <div className='gradient' />
         <Navbar/>
         {children}
         <Footer />

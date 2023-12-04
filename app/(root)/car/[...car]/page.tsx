@@ -4,6 +4,7 @@ import { generateCostumeCarsImageUrl } from "@/utils";
 import { useRef, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import emailjs from "@emailjs/browser";
+import toast, { Toaster } from 'react-hot-toast';
 
 const page = ({ params }: { params: { car: string[] } }) => {
   const [make, model, year] = params.car.map(decodeURIComponent);
@@ -47,7 +48,10 @@ const page = ({ params }: { params: { car: string[] } }) => {
       .then(
         () => {
           setLoading(false);
-          alert("Your message has been sent successfully! I'll contact you soon.");
+          toast.success("Your message has been sent successfully!", {
+            duration: 4000,
+          });
+
           setFormData({
             name: "",
             email: "",
@@ -59,14 +63,22 @@ const page = ({ params }: { params: { car: string[] } }) => {
           setLoading(false);
           console.error(error);
 
-          alert("Ahh, something went wrong. Please try again.");
+          toast.error("Ahh, something went wrong. Please try again.", {
+            duration: 4000,
+          });
         }
       );
   };
   return (
     <div className="hero">
-      <div className="flex-1 pt-36 padding-x">
-        <form onSubmit={handleSubmit} className="max-w-md mx-auto" ref={formRef}>
+      <Toaster/>
+
+      <div className="flex-1 pt-36 padding-x -mt-14">
+        <h1 className='text-4xl font-extrabold'>
+            Contact Seller
+          </h1>
+
+        <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-4" ref={formRef}>
           <div className="mb-4">
             <label htmlFor="name" className="block text-gray-600">
               Name
@@ -77,7 +89,7 @@ const page = ({ params }: { params: { car: string[] } }) => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="mt-1 p-2 w-full border rounded-md outline-none"
+              className="contact_seller_input "
               required
             />
           </div>
@@ -92,7 +104,7 @@ const page = ({ params }: { params: { car: string[] } }) => {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              className="mt-1 p-2 w-full border rounded-md outline-none"
+              className="  contact_seller_input"
               required
             />
           </div>
@@ -106,7 +118,7 @@ const page = ({ params }: { params: { car: string[] } }) => {
               name="message"
               value={formData.message}
               onChange={handleChange}
-              className="mt-1 p-2 w-full border rounded-md  outline-none"
+              className="contact_seller_input  "
               rows={4}
               required
               style={{ resize: "none" }}
@@ -121,8 +133,8 @@ const page = ({ params }: { params: { car: string[] } }) => {
           </button>
         </form>
       </div>
-      <div className="hero__image-container">
-        <div className="hero__image">
+      <div className="hero__image-container relative overflow-hidden max-w-full">
+        <div className="hero__image relative h-96">
           <Image
             src={generateCostumeCarsImageUrl(make, model, year)}
             alt="hero"
@@ -130,7 +142,7 @@ const page = ({ params }: { params: { car: string[] } }) => {
             className="object-contain"
           />
         </div>
-        <div className="hero__image-overlay" />
+        <div className="hero__image-overlay_costum" style={{top: '-4rem !important'}} />
       </div>
     </div>
   );
