@@ -28,7 +28,6 @@ const CardDetails = ({
     if (!user) {
       return router.push('/')
     }
-    console.log(`user is ${user.username}`)
     return router.push(`/car/${car.make}/${car.model}/${car.year}`)
   }
   return (

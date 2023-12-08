@@ -28,7 +28,6 @@ const Navbar = () => {
       createUser();
     }
   }, [isSignedIn, user]);
-  // console.log(`id: ${user?.id}`);
   return (
 <header className="w-full absolute z-10">
     <nav className="max-w-7xl mx-auto flex justify-between items-center sm:px-16 px-6 py-4">
