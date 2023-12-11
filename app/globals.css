@@ -62,7 +62,7 @@
   @apply absolute xl:-top-24 xl:-right-1/2 -right-1/4 bg-hero-bg bg-repeat-round -z-10 w-full xl:h-screen h-[590px] overflow-hidden;
 }
 .hero__image-overlay_costum {
-  @apply absolute xl:-top-24 -right-1/4 bg-hero-bg bg-repeat-round -z-10 w-full xl:h-screen h-[590px] overflow-hidden;
+  @apply absolute xl:-top-24 xl:-right-1/2 -right-1/4 bg-hero-bg bg-repeat-round -z-10 w-full xl:h-screen h-[590px] overflow-hidden;
 }
 
 /* END: Hero styles */
@@ -252,5 +252,9 @@
 }
 
 .contact_seller_input {
-  @apply block w-full rounded-md border border-gray-200 bg-white py-2.5 pl-10 pr-12 text-sm shadow-lg font-medium focus:outline-none focus:ring-0;
+  @apply block w-full rounded-md border border-gray-200 bg-white py-2.5 pl-10 pr-12 text-sm font-medium focus:outline-none focus:ring-0;
+}
+
+.Contact-card {
+  @apply p-6 text-black-100 bg-primary-blue-100 shadow-md rounded-3xl;
 }

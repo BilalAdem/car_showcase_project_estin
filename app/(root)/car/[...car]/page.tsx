@@ -82,76 +82,82 @@ const page = ({ params }: { params: { car: string[] } }) => {
         <Toaster />
 
         <motion.section className="flex-1 pt-36 padding-x -mt-14" {...slideAnimation("left")}>
-          <motion.div {...headContainerAnimation}>
-                <motion.div {...headTextAnimation}>
-                  <h1 className="text-4xl font-extrabold">Contact Seller</h1>
+          <div className="Contact-card">
+            <motion.div {...headContainerAnimation}>
+                  <motion.div {...headTextAnimation}>
+                    <p className="sm:text-[18px] text-[14px] text-secondary uppercase tracking-wide">Get in touch</p>
+                    <h3 className="font-black md:text-[60px] sm:text-[50px] xs:text-[40px] text-[30px] text-extrabold">Contact</h3>
 
-                  <form
-                    onSubmit={handleSubmit}
-                    className="max-w-md mx-auto mt-4"
-                    ref={formRef}
-                  >
-                    <div className="mb-4">
-                      <label htmlFor="name" className="block text-gray-600">
-                        Name
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        className="contact_seller_input "
-                        required
-                      />
-                    </div>
-
-                    <div className="mb-4">
-                      <label htmlFor="phone" className="block text-gray-600">
-                        Phone Number
-                      </label>
-                      <PhoneInput
-                        country={"dz"}
-                        value={formData.phone}
-                        onChange={(phone) => setFormData({ ...formData, phone })}
-                        inputProps={{
-                          name: "phone",
-                          id: "phone",
-                          className: "contact_seller_input",
-                          required: true,
-                          type: "tel",
-                        }}
-                      />
-                    </div>
-
-                    <div className="mb-4">
-                      <label htmlFor="message" className="block text-gray-600">
-                        Message
-                      </label>
-                      <textarea
-                        id="message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        className="contact_seller_input  "
-                        rows={4}
-                        required
-                        style={{ resize: "none" }}
-                        placeholder="I'm interested in the car. Please get in touch with me..."
-                      />
-                    </div>
-
-                    <button
-                      type="submit"
-                      className="custom-btn bg-primary-blue text-white rounded-full mt-10 w-full"
+                    <form
+                      onSubmit={handleSubmit}
+                      className="max-w-md mx-auto mt-4"
+                      ref={formRef}
                     >
-                      {loading ? "Sending..." : "Send"}
-                    </button>
-                  </form>
-                </motion.div>
-          </motion.div>
+                      <div className="mb-4">
+                        <label htmlFor="name" className="block text-gray-600">
+                          Name
+                        </label>
+                        <input
+                          type="text"
+                          id="name"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          className="contact_seller_input "
+                          placeholder="What's your name?"
+                          required
+                        />
+                      </div>
+
+                      <div className="mb-4">
+                        <label htmlFor="phone" className="block text-gray-600">
+                          Phone Number
+                        </label>
+                        <PhoneInput
+                          country={"dz"}
+                          value={formData.phone}
+                          onChange={(phone) => setFormData({ ...formData, phone })}
+                          inputProps={{
+                            name: "phone",
+                            id: "phone",
+                            className: "contact_seller_input",
+                            required: true,
+                            type: "tel",
+
+                          }}
+                        />
+                      </div>
+
+                      <div className="mb-4">
+                        <label htmlFor="message" className="block text-gray-600">
+                          Message
+                        </label>
+                        <textarea
+                          id="message"
+                          name="message"
+                          value={formData.message}
+                          onChange={handleChange}
+                          className="contact_seller_input  "
+                          rows={4}
+                          required
+                          style={{ resize: "none" }}
+                          placeholder="I'm interested in the car. Please get in touch with me..."
+                        />
+                      </div>
+
+                      <button
+                        type="submit"
+                        className="custom-btn bg-primary-blue text-white rounded-full mt-10 w-full"
+                      >
+                        {loading ? "Sending..." : "Send"}
+                      </button>
+                    </form>
+                  </motion.div>
+            </motion.div>
+          </div>
         </motion.section>
-        <motion.div className="hero__image-container relative overflow-hidden max-w-full" {...headContainerAnimation}>
+        <motion.div className="hero__image-container relative max-w-[1440px] overflow-hidden"
+        {...headContainerAnimation} >
           <motion.div className="hero__image relative h-96" {...headContentAnimation}>
             <Image
               src={generateCostumeCarsImageUrl(make, model, year)}
@@ -162,7 +168,7 @@ const page = ({ params }: { params: { car: string[] } }) => {
           </motion.div>
           <div
             className="hero__image-overlay_costum"
-            style={{ top: "-4rem !important" }}
+            style={{ top: "-4rem !important" , right: "-30% !important"}}
           />
         </motion.div>
       </div>
