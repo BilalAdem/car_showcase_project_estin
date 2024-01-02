@@ -2,9 +2,11 @@ import { CarCard, CustomFiler, Hero, SearchBar, ShowMore } from '@/components'
 import { fetchCars } from '../../utils'
 import { HomeProps } from '@/types';
 import { fuels, yearsOfProduction } from '@/constants';
+import { SectionWrapper } from '@/hoc';
+import Image from 'next/image';
+import CarBrands from '@/components/CarBrands';
 
-
-export default async function Home({ searchParams }: HomeProps) {
+async function Home({ searchParams }: HomeProps) {
   const allCars = await fetchCars({
     manufacturer: searchParams.manufacturer || '',
     model: searchParams.model || '',
@@ -33,6 +35,7 @@ export default async function Home({ searchParams }: HomeProps) {
           <CustomFiler title="year" options = {yearsOfProduction} />
           </div>
         </div>
+        <CarBrands />
         <div>
           {!isDataEmpty ? (
             <section>
@@ -62,3 +65,7 @@ export default async function Home({ searchParams }: HomeProps) {
       </main>
   )
 }
+
+export default Home;
+
+// export default SectionWrapper(Home, '');

@@ -7,6 +7,11 @@ const nextConfig = {
         hostname: "cdn.imagin.studio",
         pathname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "img.clerk.com",
+        pathname: "**",
+      },
     ],
   },
   typescript: {

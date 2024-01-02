@@ -42,12 +42,15 @@
   @apply flex xl:flex-row flex-col gap-5 relative z-0 max-w-[1440px] mx-auto;
 }
 
+.hero_custom {
+  @apply flex xl:flex-row flex-col gap-5 relative z-0 max-w-[1440px] mx-auto;
+}
 .hero__title {
   @apply 2xl:text-[72px] sm:text-[64px] text-[50px] font-extrabold;
 }
 
 .hero__subtitle {
-  @apply text-[27px] text-black-100 font-light mt-5;
+  @apply text-[27px]  font-light mt-5;
 }
 
 .hero__image-container {
@@ -89,10 +92,18 @@
   @apply mt-16 flex justify-center items-center flex-col gap-2;
 }
 /* END: Home styles */
-
+.car-brand-card {
+  @apply flex p-4 justify-center text-black-100 bg-primary-blue-100 rounded-full;
+}
 /* START: Car Card styles */
 .car-card {
   @apply flex flex-col p-6 justify-center items-start text-black-100 bg-primary-blue-100 hover:bg-white hover:shadow-md rounded-3xl;
+}
+.notificaton-card_container {
+  @apply flex flex-col p-6 mt-2 -ml-20 items-start text-black-100 bg-white hover:shadow-md rounded-2xl w-[500px] h-[400px] overflow-y-scroll;
+}
+.social_card_container {
+  @apply flex flex-row p-3 mt-2 items-center text-black-100 gap-5 border border-gray-200 bg-white rounded-2xl w-full;
 }
 
 .car-card__content {
@@ -258,3 +269,4 @@
 .Contact-card {
   @apply p-6 text-black-100 bg-primary-blue-100 shadow-md rounded-3xl;
 }
+

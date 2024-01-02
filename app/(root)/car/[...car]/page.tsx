@@ -1,19 +1,61 @@
 "use client";
 import Image from "next/image";
 import { generateCostumeCarsImageUrl } from "@/utils";
-import { useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import emailjs from "@emailjs/browser";
 import toast, { Toaster } from "react-hot-toast";
 import PhoneInput from "react-phone-input-2";
+import { io } from "socket.io-client";
+import styles from "@/components/page.module.css";
 import "react-phone-input-2/lib/style.css";
 import { motion, AnimatePresence } from "framer-motion";
-import { headContainerAnimation, headContentAnimation, headTextAnimation, slideAnimation } from "@/config/motion";
+import {
+  headContainerAnimation,
+  headContentAnimation,
+  headTextAnimation,
+  slideAnimation,
+} from "@/config/motion";
+import { CustmomerService, leftArrow, socials } from "@/constants";
+import ChatPage from "@/components/ChatBox";
+import { carBrands } from "@/constants";
 
 const page = ({ params }: { params: { car: string[] } }) => {
   const [make, model, year] = params.car.map(decodeURIComponent);
   const [loading, setLoading] = useState(false);
-  const formRef = useRef(null);
+  const [showChat, setShowChat] = useState(false);
+  const [showSpinner, setShowSpinner] = useState(false);
+  let roomId = "nnn";
+
+  var socket: any;
+  socket = io("http://localhost:3001");
+
+  const handleJoin = () => {
+    if (roomId !== "") {
+      console.log(roomId, "roomId");
+      socket.emit("join_room", roomId);
+      setShowSpinner(true);
+      // You can remove this setTimeout and add your own logic
+      setTimeout(() => {
+        setShowChat(true);
+        setShowSpinner(false);
+      }, 1000);
+    } else {
+      alert("no room id");
+    }
+  };
+  const findCarByMake = (make: string) => {
+    const lowerCaseMake = make.toLowerCase();
+    const car = carBrands.find(
+      (car) =>
+        car.title.toLowerCase() === lowerCaseMake ||
+        lowerCaseMake.includes(car.title.toLowerCase())
+    );
+
+    return car?.image;
+  };
+  const imageStore = findCarByMake(make);
+  // console.log(imageStore, "imageStore");
 
   const EMAILJS_SERVICE_ID = "service_gyvmz7j";
   const EMAILJS_TEMPLATE_ID = "template_03nqoki";
@@ -32,7 +74,7 @@ const page = ({ params }: { params: { car: string[] } }) => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  console.log(formData);
+  // console.log(formData);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -78,97 +120,92 @@ const page = ({ params }: { params: { car: string[] } }) => {
   };
   return (
     <AnimatePresence>
-      <div className="hero">
+      <div className="hero" style={{ height: "100vh", marginBottom: "100px" }}>
         <Toaster />
-
-        <motion.section className="flex-1 pt-36 padding-x -mt-14" {...slideAnimation("left")}>
-          <div className="Contact-card">
+        <motion.section
+          className="flex-1 pt-36 padding-x -mt-10"
+          {...slideAnimation("left")}
+        >
+          <div className="Contact-card h-[550px] w-[400px]">
             <motion.div {...headContainerAnimation}>
-                  <motion.div {...headTextAnimation}>
-                    <p className="sm:text-[18px] text-[14px] text-secondary uppercase tracking-wide">Get in touch</p>
-                    <h3 className="font-black md:text-[60px] sm:text-[50px] xs:text-[40px] text-[30px] text-extrabold">Contact</h3>
-
-                    <form
-                      onSubmit={handleSubmit}
-                      className="max-w-md mx-auto mt-4"
-                      ref={formRef}
+              {!showSpinner ? (
+                <motion.div {...headTextAnimation}>
+                  <p
+                    className="sm:text-[18] text-[16px] uppercase tracking-wide"
+                    style={{ display: showChat ? "none" : "" }}
+                  >
+                    Get in touch
+                  </p>
+                  <div
+                    className="flex items-center gap-2 mt-2 cursor-pointer"
+                    style={{ display: showChat ? "none" : "" }}
+                  >
+                    <h3 className="font-black md:text-[35px] sm:text-[50px] xs:text-[40px] text-[26px] text-extrabold">
+                      Contact
+                    </h3>
+                  </div>
+                  <div style={{ display: showChat ? "none" : "" }}>
+                    <div
+                      className="social_card_container cursor-pointer"
+                      onClick={() => handleJoin()}
                     >
-                      <div className="mb-4">
-                        <label htmlFor="name" className="block text-gray-600">
-                          Name
-                        </label>
-                        <input
-                          type="text"
-                          id="name"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                          className="contact_seller_input "
-                          placeholder="What's your name?"
-                          required
+                      <Image
+                        src={CustmomerService.image}
+                        alt="social"
+                        width="30"
+                        height="30"
+                      />
+                      <p className="text-[16px] leading-[26px] font-bold">
+                        {CustmomerService.title}
+                      </p>
+                    </div>
+                    {socials.map((social) => (
+                      <div className="social_card_container cursor-pointer">
+                        <Image
+                          src={social.image}
+                          alt="social"
+                          width="30"
+                          height="30"
                         />
+                        <p className="text-[16px] leading-[26px] font-bold">
+                          {social.title}
+                        </p>
                       </div>
-
-                      <div className="mb-4">
-                        <label htmlFor="phone" className="block text-gray-600">
-                          Phone Number
-                        </label>
-                        <PhoneInput
-                          country={"dz"}
-                          value={formData.phone}
-                          onChange={(phone) => setFormData({ ...formData, phone })}
-                          inputProps={{
-                            name: "phone",
-                            id: "phone",
-                            className: "contact_seller_input",
-                            required: true,
-                            type: "tel",
-
-                          }}
-                        />
-                      </div>
-
-                      <div className="mb-4">
-                        <label htmlFor="message" className="block text-gray-600">
-                          Message
-                        </label>
-                        <textarea
-                          id="message"
-                          name="message"
-                          value={formData.message}
-                          onChange={handleChange}
-                          className="contact_seller_input  "
-                          rows={4}
-                          required
-                          style={{ resize: "none" }}
-                          placeholder="I'm interested in the car. Please get in touch with me..."
-                        />
-                      </div>
-
-                      <button
-                        type="submit"
-                        className="custom-btn bg-primary-blue text-white rounded-full mt-10 w-full"
-                      >
-                        {loading ? "Sending..." : "Send"}
-                      </button>
-                    </form>
-                  </motion.div>
+                    ))}
+                  </div>
+                  <div style={{ display: !showChat ? "none" : "" }}>
+                    <ChatPage
+                      socket={socket}
+                      roomId={roomId}
+                      make={make}
+                      imageStore={imageStore}
+                    />
+                  </div>
+                </motion.div>
+              ) : (
+                <div className={styles.loading_spinner}></div>
+              )}
             </motion.div>
           </div>
         </motion.section>
-        <motion.div className="hero__image-container relative max-w-[1440px] overflow-hidden"
-        {...headContainerAnimation} >
-          <motion.div className="hero__image relative h-96" {...headContentAnimation}>
+        <motion.div
+          className="hero__image-container relative max-w-[1440px] overflow-hidden"
+          {...headContainerAnimation}
+        >
+          <motion.div
+            className="hero__image relative h-96"
+            {...headContentAnimation}
+          >
             <Image
               src={generateCostumeCarsImageUrl(make, model, year)}
               alt="hero"
-              fill
+              layout="fill"
               className="object-contain"
             />
           </motion.div>
           <div
             className="hero__image-overlay_costum"
-            style={{ top: "-4rem !important" , right: "-30% !important"}}
+            style={{ top: "-4rem !important", right: "-30% !important" }}
           />
         </motion.div>
       </div>
