@@ -7,7 +7,7 @@ import {
 import { connectToDB } from "@/lib/mongoose";
 
 function extractParams(queryString: string) {
-  const params = {};
+  const params: { roomId?: string; id?: string; email?: string } = {};
 
   // Split the query string into key-value pairs
   const pairs = queryString.slice(1).split("&");
@@ -19,17 +19,17 @@ function extractParams(queryString: string) {
   });
 
   // Destructure the required parameters
-  const { roomId, id } = params;
-  return { roomId, id };
+  const { roomId, id, email } = params;
+  return { roomId, id, email };
 }
 
 export const GET = async (request: NextRequest) => {
-  const { roomId } = extractParams(request.nextUrl.search);
+  const { email } = extractParams(request.nextUrl.search);
 
   try {
     await connectToDB();
 
-    const notifications = await fetchNotifications(roomId as string);
+    const notifications = await fetchNotifications(email as string);
 
     return NextResponse.json({ success: true, notifications }, { status: 200 });
   } catch (error: any) {
@@ -55,4 +55,5 @@ export const PUT = async (request: NextRequest) => {
       { status: 500 }
     );
   }
+  
 };

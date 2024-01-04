@@ -22,6 +22,12 @@ const userSchema = new mongoose.Schema({
       ref: "Room",
     },
   ],
+  notifications: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Notification",
+    },
+  ],
 });
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);

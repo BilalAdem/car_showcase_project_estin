@@ -1,14 +1,20 @@
 "use client";
-
 import styles from "./page.module.css";
 import { io } from "socket.io-client";
 import { useState } from "react";
 import ChatPage from "./ChatBox";
 
-export default function Home() {
+export default function Home({
+  roomId,
+  make,
+  imageStore,
+}: {
+  roomId: string;
+  make: string;
+  imageStore: string;
+}) {
   const [showChat, setShowChat] = useState(false);
   const [showSpinner, setShowSpinner] = useState(false);
-  const [roomId, setroomId] = useState("");
 
   var socket: any;
   socket = io("http://localhost:3001");
@@ -22,9 +28,9 @@ export default function Home() {
       setTimeout(() => {
         setShowChat(true);
         setShowSpinner(false);
-      }, 4000);
+      }, 2000);
     } else {
-      alert("Please fill in Username and Room Id");
+      alert("No valid room id");
     }
   };
 
@@ -34,13 +40,6 @@ export default function Home() {
         className={styles.main_div}
         style={{ display: showChat ? "none" : "" }}
       >
-        <input
-          className={styles.main_input}
-          type="text"
-          placeholder="room id"
-          onChange={(e) => setroomId(e.target.value)}
-          disabled={showSpinner}
-        />
         <button className={styles.main_button} onClick={() => handleJoin()}>
           {!showSpinner ? (
             "Join"
@@ -50,7 +49,12 @@ export default function Home() {
         </button>
       </div>
       <div style={{ display: !showChat ? "none" : "" }}>
-        <ChatPage socket={socket} roomId={roomId} />
+        <ChatPage
+          socket={socket}
+          roomId={roomId}
+          make={make}
+          imageStore={imageStore}
+        />{" "}
       </div>
     </div>
   );

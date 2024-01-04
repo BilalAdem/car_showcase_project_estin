@@ -1,10 +1,11 @@
 "use client";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { image, send, vocal } from "@/assests";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { leftArrow, verifiedIcon } from "@/constants";
+import style from "./chat.module.css";
 
 interface IMsgDataTypes {
   roomId: String | number;
@@ -40,7 +41,12 @@ const ChatPage = ({ socket, roomId, make, imageStore }: chatProps) => {
     if (currentMsg !== "") {
       const msgData: IMsgDataTypes = {
         roomId,
-        user: { firstName, lastName, imageUrl, email },
+        user: {
+          firstName: firstName ?? "",
+          lastName: lastName ?? "",
+          imageUrl: imageUrl ?? "",
+          email: email ?? "",
+        },
         msg: currentMsg,
         time:
           new Date(Date.now()).getHours() +
@@ -72,14 +78,15 @@ const ChatPage = ({ socket, roomId, make, imageStore }: chatProps) => {
     };
     sendMessage();
   };
+
   const handleKeyPress = (event: React.KeyboardEvent) => {
-    // Add type annotation here
     if (event.charCode !== 13 || messageTextIsEmpty) {
       return;
     }
     sendData(event as any);
     event.preventDefault();
   };
+
   useEffect(() => {
     const fetchHistoryMessages = async () => {
       try {
@@ -90,35 +97,24 @@ const ChatPage = ({ socket, roomId, make, imageStore }: chatProps) => {
         });
         console.log(response.data);
         const messages = response.data.result.messages;
-        for (let i = 0; i < messages.length; i++) {
-          console.log(`message ${i} : ${messages[i].message} `);
-        }
-        const data_chat_roomId = response.data.result.roomId;
-        messageEnd = response.data.result.messages.length - 1;
-        const data_chat_messages = response.data.result.messages.map(
-          (e: any) => {
-            return {
-              user: {
-                email: e.email,
-                imageUrl: e.image,
-                firstName: e.name.split(" ")[0] as string,
-                lastName: e.name.split(" ")[1] as string,
-              },
-              msg: e.message,
-              time: e.time,
-            };
-          }
-        );
-        const data_chat = {
-          roomId: data_chat_roomId,
-          messages: data_chat_messages,
-        };
-        console.log(`data_chat : ${data_chat} `);
-        setChat(data_chat.messages);
+        const data_chat_messages = messages.map((e: any) => {
+          return {
+            user: {
+              email: e.email,
+              imageUrl: e.image,
+              firstName: e.name.split(" ")[0] as string,
+              lastName: e.name.split(" ")[1] as string,
+            },
+            msg: e.message,
+            time: e.time,
+          };
+        });
+        setChat(data_chat_messages);
       } catch (error) {
         console.error(error);
       }
     };
+
     fetchHistoryMessages();
   }, [roomId]);
 
@@ -141,7 +137,7 @@ const ChatPage = ({ socket, roomId, make, imageStore }: chatProps) => {
           />
         </button>
         <h3 className="font-black md:text-[22px] sm:text-[50px] xs:text-[40px] text-[22px] text-extrabold">
-          {make.toUpperCase()} Store{" "}
+          {make.toUpperCase()} Store
         </h3>
         <span className="flex items-center " style={{ marginTop: "2px" }}>
           <Image
@@ -161,85 +157,95 @@ const ChatPage = ({ socket, roomId, make, imageStore }: chatProps) => {
           scrollBehavior: "smooth",
         }}
       >
-        {chat.map(({ roomId, user, msg, time }, key) => (
-          <div>
-            {user.email === email ? (
-              <div className="chat chat-end" key={`chat_${key}`}>
-                <div className="chat-image avatar">
-                  <div className="w-10 rounded-full">
-                    {email === "billalademattar@gmail.com" ? (
-                      <Image
-                        alt="avatar"
-                        src={imageStore ?? ""}
-                        className="object-contain"
-                        width={50}
-                        height={50}
-                      />
-                    ) : (
-                      <Image
-                        alt="avatar"
-                        src={imageUrl ?? ""}
-                        className="object-contain"
-                        width={50}
-                        height={50}
-                      />
-                    )}
+        {chat
+          .filter((message, index, self) => {
+            // Filter out duplicate messages based on the msg property
+            return (
+              index ===
+              self.findIndex(
+                (m) => m.msg === message.msg && m.time === message.time
+              )
+            );
+          })
+          .map(({ roomId, user, msg, time }, key) => (
+            <div>
+              {user.email === email ? (
+                <div className="chat chat-end" key={`chat_${key}`}>
+                  <div className="chat-image avatar">
+                    <div className="w-10 rounded-full">
+                      {email === "billalademattar@gmail.com" ? (
+                        <Image
+                          alt="avatar"
+                          src={imageStore ?? ""}
+                          className="object-contain"
+                          width={50}
+                          height={50}
+                        />
+                      ) : (
+                        <Image
+                          alt="avatar"
+                          src={imageUrl ?? ""}
+                          className="object-contain"
+                          width={50}
+                          height={50}
+                        />
+                      )}
+                    </div>
                   </div>
-                </div>
 
-                <div className="chat-header">
-                  {firstName} {lastName}
-                  <time className="ml-2 text-xs opacity-50">{time}</time>
-                </div>
-
-                <span
-                  key={`span-${key}`}
-                  className={`chat-bubble`}
-                  data-author={email}
-                >
-                  {msg}
-                </span>
-              </div>
-            ) : (
-              <div className="chat chat-start" key={`chat-start-${key}`}>
-                <div className="chat-image avatar">
-                  <div className="w-10 rounded-full">
-                    {user.email === "billalademattar@gmail.com" ? (
-                      <Image
-                        alt="avatar"
-                        src={imageStore ?? ""}
-                        className="object-contain"
-                        width={50}
-                        height={50}
-                      />
-                    ) : (
-                      <Image
-                        alt="avatar"
-                        src={user.imageUrl}
-                        className="object-contain"
-                        width={50}
-                        height={50}
-                      />
-                    )}
+                  <div className="chat-header">
+                    {firstName} {lastName}
+                    <time className="ml-2 text-xs opacity-50">{time}</time>
                   </div>
-                </div>
 
-                <div className="chat-header">
-                  {user.firstName} {user.lastName}
-                  <time className="ml-2 text-xs opacity-50">{time}</time>
+                  <span
+                    key={`span-${key}`}
+                    className={`chat-bubble`}
+                    data-author={email}
+                  >
+                    {msg}
+                  </span>
                 </div>
+              ) : (
+                <div className="chat chat-start" key={`chat-start-${key}`}>
+                  <div className="chat-image avatar">
+                    <div className="w-10 rounded-full">
+                      {user.email === "billalademattar@gmail.com" ? (
+                        <Image
+                          alt="avatar"
+                          src={imageStore ?? ""}
+                          className="object-contain"
+                          width={50}
+                          height={50}
+                        />
+                      ) : (
+                        <Image
+                          alt="avatar"
+                          src={user.imageUrl}
+                          className="object-contain"
+                          width={50}
+                          height={50}
+                        />
+                      )}
+                    </div>
+                  </div>
 
-                <span
-                  key={`span-start-${key}`}
-                  className={`chat-bubble`}
-                  data-author={user.email}
-                >
-                  {msg}
-                </span>
-              </div>
-            )}
-          </div>
-        ))}
+                  <div className="chat-header">
+                    {user.firstName} {user.lastName}
+                    <time className="ml-2 text-xs opacity-50">{time}</time>
+                  </div>
+
+                  <span
+                    key={`span-start-${key}`}
+                    className={`chat-bubble`}
+                    data-author={user.email}
+                  >
+                    {msg}
+                  </span>
+                </div>
+              )}
+            </div>
+          ))}
       </div>
       <div>
         <form onSubmit={(e) => sendData(e)}>

@@ -44,8 +44,8 @@ export async function createUser({
 export async function fetchUser(userId: string) {
   try {
     connectToDB();
-
-    return await User.findOne({ id: userId });
+    const user = await User.findOne({ id: userId });
+    return user;
   } catch (error) {
     throw new Error(`Failed to fetch user: ${error}`);
   }
@@ -111,6 +111,7 @@ export const addMessagesToRoom = async (
     if (!room) {
       const newRoom = new Room({
         id: roomId,
+        users: [{ email }],
         messages: [messageObj],
       });
       const result = await newRoom.save();
@@ -120,7 +121,7 @@ export const addMessagesToRoom = async (
 
       const updatedRoom = await Room.findOneAndUpdate(
         { id: roomId },
-        { $push: { messages: messageObj } },
+        { $push: { users: { email }, messages: messageObj } },
         { new: true }
       );
 
@@ -130,7 +131,7 @@ export const addMessagesToRoom = async (
         { $push: { rooms: updatedRoom } },
         { new: true }
       );
-      console.log(`updatedUser`, updatedUser);
+      // console.log(`updatedUser`, updatedUser);
       return updatedRoom;
     }
   } catch (error) {

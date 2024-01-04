@@ -7,11 +7,15 @@ export default authMiddleware({
   publicRoutes: [
     "/",
     "/api",
-    "/car/(.*) ,/api/notifications, /api/notifications/(.*)",
+    "/car/(.*)",
+    "/api/notifications",
+    "/api/notifications/(.*)",
   ],
   ignoredRoutes: [
     "/api",
-    "/car/(.*),/api/notifications, /api/notifications/(.*)",
+    "/car/(.*)",
+    "/api/notifications",
+    "/api/notifications/(.*)",
   ],
 });
 

@@ -163,7 +163,7 @@
 
 /* START: Custom Filter styles */
 .custom-filter__btn {
-  @apply relative w-full min-w-[127px] flex justify-between items-center cursor-default rounded-lg bg-white py-2 px-3 text-left shadow-md sm:text-sm border;
+  @apply relative w-full min-w-[127px] flex justify-between items-center cursor-default rounded-lg bg-white py-2 px-3 text-left shadow-md sm:text-sm border text-black-100;
 }
 
 .custom-filter__options {
@@ -269,4 +269,3 @@
 .Contact-card {
   @apply p-6 text-black-100 bg-primary-blue-100 shadow-md rounded-3xl;
 }
-

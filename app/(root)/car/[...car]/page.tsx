@@ -19,31 +19,48 @@ import {
 import { CustmomerService, leftArrow, socials } from "@/constants";
 import ChatPage from "@/components/ChatBox";
 import { carBrands } from "@/constants";
+import { useRouter, useSearchParams } from "next/navigation";
+import Chat from "@/components/Chat";
 
 const page = ({ params }: { params: { car: string[] } }) => {
+  const { user } = useUser();
   const [make, model, year] = params.car.map(decodeURIComponent);
   const [loading, setLoading] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const [showSpinner, setShowSpinner] = useState(false);
-  let roomId = "nnn";
+  const email = user?.emailAddresses[0].emailAddress;
+  const [roomId, setRoomId] = useState("");
+
+  const serchParams = useSearchParams();
+  const adminRoomId = serchParams.get("roomId") || "";
+  let OrRoomId = `${make}-${model}-${year}-${email}-billalademattar@gmail.com`;
+
+  useEffect(() => {
+    console.log(`adminRoomId : ${adminRoomId} , OrRoomId : ${OrRoomId}`);
+    if (adminRoomId !== "") {
+      setRoomId(adminRoomId);
+    } else {
+      setRoomId(OrRoomId);
+    }
+  }, [adminRoomId, OrRoomId]);
 
   var socket: any;
   socket = io("http://localhost:3001");
 
-  const handleJoin = () => {
-    if (roomId !== "") {
-      console.log(roomId, "roomId");
-      socket.emit("join_room", roomId);
-      setShowSpinner(true);
-      // You can remove this setTimeout and add your own logic
-      setTimeout(() => {
-        setShowChat(true);
-        setShowSpinner(false);
-      }, 1000);
-    } else {
-      alert("no room id");
-    }
-  };
+  // const handleJoin = () => {
+  //   if (roomId !== "") {
+  //     console.log("Emitting join_room", roomId);
+  //     socket.emit("join_room", roomId);
+  //     setShowSpinner(true);
+  //     setTimeout(() => {
+  //       setShowChat(true);
+  //       setShowSpinner(false);
+  //     }, 1000);
+  //   } else {
+  //     console.log("No room id");
+  //     alert("no room id");
+  //   }
+  // };
   const findCarByMake = (make: string) => {
     const lowerCaseMake = make.toLowerCase();
     const car = carBrands.find(
@@ -60,7 +77,6 @@ const page = ({ params }: { params: { car: string[] } }) => {
   const EMAILJS_SERVICE_ID = "service_gyvmz7j";
   const EMAILJS_TEMPLATE_ID = "template_03nqoki";
   const EMAILJS_PUBLIC_KEY = "Mu9Y-vemtD1-V35p_";
-  const { user } = useUser();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -147,7 +163,7 @@ const page = ({ params }: { params: { car: string[] } }) => {
                   <div style={{ display: showChat ? "none" : "" }}>
                     <div
                       className="social_card_container cursor-pointer"
-                      onClick={() => handleJoin()}
+                      onClick={() => setShowChat(true)}
                     >
                       <Image
                         src={CustmomerService.image}
@@ -174,12 +190,13 @@ const page = ({ params }: { params: { car: string[] } }) => {
                     ))}
                   </div>
                   <div style={{ display: !showChat ? "none" : "" }}>
-                    <ChatPage
+                    {/* <ChatPage
                       socket={socket}
                       roomId={roomId}
                       make={make}
                       imageStore={imageStore}
-                    />
+                    /> */}
+                    <Chat roomId={roomId} make={make} imageStore={imageStore} />
                   </div>
                 </motion.div>
               ) : (

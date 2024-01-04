@@ -55,7 +55,7 @@ const Navbar = () => {
                 />
               </Popover.Button>
               <Popover.Panel className="absolute z-10 -right-28">
-                <Notification />
+                <Notification isSignedIn={isSignedIn} />
               </Popover.Panel>
             </Popover>
             <Link href="/wishlist">
@@ -71,7 +71,7 @@ const Navbar = () => {
           </div>
         ) : (
           <SignInButton>
-            <button className="custom-btn bg-white text-prinary-blue rounded-full min-w-[100px] ml-4">
+            <button className="custom-btn bg-white text-black rounded-full min-w-[100px] ml-4">
               Sign In
             </button>
           </SignInButton>

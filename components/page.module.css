@@ -1,6 +1,5 @@
 .main_div {
   height: 100vh;
-  widows: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -36,16 +35,13 @@
   }
 }
 
-.chat-container::-webkit-scrollbar {
-  width: 12px;
-}
-
-.chat-container::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
-}
-
-.chat-container::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+.chat_chat_div__RjjBh {
+  /* height: 100vh; */
+  /* width: 100vw; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 494px !important;
+  overflow-y: scroll !important;
 }

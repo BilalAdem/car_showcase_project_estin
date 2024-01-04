@@ -4,6 +4,11 @@ const roomSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  users: [
+    {
+      email: String,
+    },
+  ],
   messages: [
     {
       email: String,
@@ -14,5 +19,6 @@ const roomSchema = new mongoose.Schema({
     },
   ],
 });
+
 const Room = mongoose.models.Room || mongoose.model("Room", roomSchema);
 export default Room;

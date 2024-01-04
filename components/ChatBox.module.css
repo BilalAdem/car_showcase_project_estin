@@ -1,59 +1,54 @@
-.chatHolder {
-  display: grid;
-  grid-template-rows: 1fr 100px;
-}
-
-.chatText {
+.chat_div {
+  height: 100vh;
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
-  gap: 1em;
-  height: calc(100vh - 40px - 100px - 100px - 100px);
-  overflow-y: auto;
+}
+.chat_border {
+  border: 1px solid red;
+  padding: 5px;
+}
+.chat_input {
+  height: 2rem;
+  width: 15rem;
+  padding: 5px;
+}
+.chat_button {
+  height: 2rem;
+}
+.chatProfileRight {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-direction: row-reverse;
+  margin-bottom: 5px;
+}
+.chatProfileLeft {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 5px;
+}
+.chatProfileSpan {
+  background-color: rgb(213, 213, 182);
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+  border: 1px solid white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
 }
 
-.form {
-  display: grid;
-  grid-template-columns: 1fr 100px;
-  border-top: 1px solid #eee;
-}
-
-.textarea {
-  padding: 1em;
-  border: 1px solid #ccc; /* Add a border for better visibility */
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  font-size: 1.2em;
-  height: fit-content;
-  min-height: 50px; /* Set a minimum height to avoid collapsing when empty */
-}
-
-.button {
-  border: 0;
-  color: white;
-  font-weight: bold;
-  font-size: 1.4em;
-  background: linear-gradient(to right, #363795, #005c97);
-}
-
-.button:hover {
-  background: linear-gradient(
-    90deg,
-    rgba(54, 55, 149, 1) 0%,
-    rgba(0, 92, 151, 1) 62%,
-    rgba(0, 125, 205, 1) 100%
-  );
-}
-
-.button:disabled,
-.button:hover:disabled {
-  background: linear-gradient(to right, #363795, #005c97);
-  opacity: 0.5;
-}
-
-.message {
-  background-color: #eef5f8;
-  padding: 1em;
-  border-radius: 10px;
-  flex-grow: 0;
-  border-bottom-left-radius: 0;
+.chat_chat_div__RjjBh {
+  /* height: 100vh; */
+  /* width: 100vw; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 494px !important;
+  overflow-y: scroll !important;
 }
